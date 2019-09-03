@@ -22,16 +22,15 @@ public class AuthController {
 
 		Boolean isValidUSer= false;
 
-		if (encodedCred != null && encodedCred.toLowerCase().startsWith("basic")) {
+		if (encodedCred != null) {
 			
-			String base64Credentials = encodedCred.substring("Basic".length()).trim();
-			byte[] credDecoded = Base64.getDecoder().decode(base64Credentials);
+			byte[] credDecoded = Base64.getDecoder().decode(encodedCred);
 			String credentials = new String(credDecoded, StandardCharsets.UTF_8);
 			final String[] values = credentials.split(":", 2);
 			isValidUSer = userService.findUser(values[0],values[1]);
 
 		}
 		return new ResponseEntity<Boolean>(isValidUSer, HttpStatus.OK);
-
 	}
+	
 }
